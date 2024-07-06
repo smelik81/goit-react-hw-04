@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import "./App.css";
 import { fetchArticles } from "./api/articles-api";
@@ -5,6 +6,8 @@ import SearchBar from "./SearchBar/SearchBar";
 import Loader from "./Loader/Loader";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import ImageGallery from "./ImageGallery/ImageGallery";
+import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -17,14 +20,21 @@ function App() {
   useEffect(() => {
     if (!query) return;
 
-    async function getArticles() {
+    const getArticles = async () => {
       try {
         setIsLoading(true);
-        setArticles([]);
         setError(false);
         const { results, total_pages } = await fetchArticles(query, page);
-
-        if (!results.length) return;
+        console.log(results);
+        if (!results.length) {
+          toast.error("No results found. Please try a different search query.");
+          return;
+        } // мені так подобається більше - що Ви скажите як краще прописувати умову?
+        /*  if (results.length === 0) {
+          setLoadMore(false);
+           toast.error("No results found. Please try a different search query.");
+          return;
+        } */
         setArticles((prevArticles) => [...prevArticles, ...results]);
         setLoadMore(page < total_pages);
       } catch (error) {
@@ -32,25 +42,29 @@ function App() {
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
     getArticles();
   }, [query, page]);
 
   const onHandleSearchSubmit = async (searchQuery) => {
     setQuery(searchQuery);
-    console.log(searchQuery);
+    setArticles([]);
     setPage(1);
   };
 
-  console.log(loadMore);
+  const handleLoadMore = () => {
+    setPage(page + 1);
+  };
 
+  console.log(loadMore);
   return (
     <div>
       <SearchBar onSubmit={onHandleSearchSubmit} />
-      {isLoading && <Loader />}
       {error && <ErrorMessage />}
-      <ImageGallery articles={articles} />
+      {articles.length > 0 && <ImageGallery images={articles} />}
+      {isLoading && <Loader />}
+      {loadMore && !isLoading && <LoadMoreBtn onClick={handleLoadMore} />}
     </div>
   );
 }

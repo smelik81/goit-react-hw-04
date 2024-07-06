@@ -1,14 +1,14 @@
-export default function ImageGallery({ articles }) {
+import ImageCard from "../ImageCard/ImageCard";
+import css from "./ImageGallery.module.css";
+
+export default function ImageGallery({ images }) {
   return (
-    <div>
-      <ul>
-        {articles.map((article) => {
-          console.log(article);
+    <div className={css.container}>
+      <ul className={css.list}>
+        {images.map(({ id, urls: { small }, alt_description }) => {
           return (
-            <li key={article.id}>
-              <div>
-                <img src="" alt="" />
-              </div>
+            <li key={id} className={css.item}>
+              <ImageCard src={small} alt={alt_description} />
             </li>
           );
         })}
