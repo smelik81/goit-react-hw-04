@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { animateScroll as scroll } from "react-scroll";
 import "./App.css";
 import { fetchArticles } from "./api/articles-api";
-import SearchBar from "./cpmponents/SearchBar/SearchBar";
-import Loader from "./cpmponents/Loader/Loader";
-import ErrorMessage from "./cpmponents/ErrorMessage/ErrorMessage";
-import ImageGallery from "./cpmponents/ImageGallery/ImageGallery";
-import LoadMoreBtn from "./cpmponents/LoadMoreBtn/LoadMoreBtn";
+import SearchBar from "./components/SearchBar/SearchBar";
+import Loader from "./components/Loader/Loader";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import toast, { Toaster } from "react-hot-toast";
-import ImageModal from "./cpmponents/ImageModal/ImageModal";
+import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
   const [articles, setArticles] = useState([]);
