@@ -1,0 +1,21 @@
+.modalOverlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.buttonModalClose {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  padding: 13px;
+  background-color: #d7a51b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeSvg {
+  background-color: white;
+  font-size: 30px;
+  color: black;
+}

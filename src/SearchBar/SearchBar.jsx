@@ -1,8 +1,8 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
-// eslint-disable-next-line react/prop-types
 export default function SearchBar({ onSubmit }) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -22,8 +22,8 @@ export default function SearchBar({ onSubmit }) {
   };
 
   return (
-    <header>
-      <form onSubmit={handleSubmit}>
+    <header className={css.wrapper}>
+      <form onSubmit={handleSubmit} className={css.container}>
         <input
           className={css.input}
           type="text"
@@ -33,7 +33,9 @@ export default function SearchBar({ onSubmit }) {
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
         />
-        <button type="submit">Search</button>
+        <button type="submit" className={css.buttonSubmit}>
+          <FaMagnifyingGlass size="24px" />
+        </button>
       </form>
       <Toaster />
     </header>
