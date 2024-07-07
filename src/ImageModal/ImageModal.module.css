@@ -1,21 +1,86 @@
 .modalOverlay {
   background-color: rgba(0, 0, 0, 0.75);
   transition: opacity 0.3s ease-in-out;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modalWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .buttonModalClose {
-  position: relative;
-  top: 0px;
-  left: 0px;
   padding: 13px;
-  background-color: #d7a51b;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 5;
 }
 
 .closeSvg {
   background-color: white;
-  font-size: 30px;
+  font-size: 40px;
   color: black;
+}
+.closeSvg:hover {
+  transform: scale(1.2);
+}
+
+/* VARIANT*/
+.modalContent {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.infoContainer {
+  display: flex;
+  padding: 10px;
+  text-align: start;
+  justify-content: space-around;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.description {
+  font-size: 22px;
+  margin: 0;
+  color: black;
+  width: 700px;
+  line-height: 1.03;
+}
+
+.likes {
+  font-size: 22px;
+  margin: 0;
+  color: black;
+  line-height: 1.03;
+  width: 120px;
 }

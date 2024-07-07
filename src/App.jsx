@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { animateScroll as scroll } from "react-scroll";
 import "./App.css";
 import { fetchArticles } from "./api/articles-api";
 import SearchBar from "./SearchBar/SearchBar";
@@ -21,7 +22,9 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalImage, setModalImage] = useState("");
   const [modalAlt, setModalAlt] = useState("");
-  const loadRef = useRef();
+  const [modalDescription, setModalDescription] = useState("");
+  const [modalLikes, setModalLikes] = useState("");
+
   useEffect(() => {
     if (!query) return;
 
@@ -41,12 +44,9 @@ function App() {
         } */
         setArticles((prevArticles) => [...prevArticles, ...results]);
         setLoadMore(page < total_pages);
-        /*  if (page > 1) {
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "smooth",
-          });
-        } */
+        if (page > 1) {
+          scroll.scrollToBottom();
+        }
       } catch (error) {
         setError(true);
       } finally {
@@ -65,17 +65,14 @@ function App() {
 
   const handleLoadMore = () => {
     setPage(page + 1);
-    /*  const dims = loadRef.current.getBoundingClientRect();
-    window.scrollTo({
-      top: Math.round(dims.document.documentElement.scrollHeight) * 2,
-      behavior: "smooth",
-    }); */
   };
 
-  const openModal = ({ regular, alt_description }) => {
+  const openModal = ({ regular, alt_description, description, likes }) => {
     setModalImage(regular);
     setModalAlt(alt_description);
     setModalIsOpen(true);
+    setModalDescription(description);
+    setModalLikes(likes);
   };
 
   const closeModal = () => {
@@ -83,8 +80,7 @@ function App() {
     setModalImage("");
     setModalAlt("");
   };
-  /* console.log(window.document.documentElement.scrollHeight);
-  console.log(window.document.documentElement.getBoundingClientRect()); */
+
   return (
     <div>
       <SearchBar onSubmit={onHandleSearchSubmit} />
@@ -99,8 +95,10 @@ function App() {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           closeModal={closeModal}
-          imageUrl={modalImage.regular}
-          alt_description={modalAlt.alt_description}
+          imageUrl={modalImage}
+          alt_description={modalAlt}
+          description={modalDescription}
+          likes={modalLikes}
         />
       )}
     </div>
