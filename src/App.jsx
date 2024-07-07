@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { animateScroll as scroll } from "react-scroll";
 import "./App.css";
 import { fetchArticles } from "./api/articles-api";
-import SearchBar from "./SearchBar/SearchBar";
-import Loader from "./Loader/Loader";
-import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import ImageGallery from "./ImageGallery/ImageGallery";
-import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
+import SearchBar from "./cpmponents/SearchBar/SearchBar";
+import Loader from "./cpmponents/Loader/Loader";
+import ErrorMessage from "./cpmponents/ErrorMessage/ErrorMessage";
+import ImageGallery from "./cpmponents/ImageGallery/ImageGallery";
+import LoadMoreBtn from "./cpmponents/LoadMoreBtn/LoadMoreBtn";
 import toast, { Toaster } from "react-hot-toast";
-import ImageModal from "./ImageModal/ImageModal";
+import ImageModal from "./cpmponents/ImageModal/ImageModal";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -33,15 +33,17 @@ function App() {
         setIsLoading(true);
         setError(false);
         const { results, total_pages } = await fetchArticles(query, page);
-        if (!results.length) {
+        if (results.length === 0 && page === 1) {
           toast.error("No results found. Please try a different search query.");
-          return;
-        } // мені так подобається більше - що Ви скажите як краще прописувати умову?
-        /*  if (results.length === 0) {
           setLoadMore(false);
-           toast.error("No results found. Please try a different search query.");
           return;
-        } */
+        }
+        if (results.length === 0) {
+          toast.error("No results found. Please try a different search query.");
+          setLoadMore(false);
+          return;
+        }
+
         setArticles((prevArticles) => [...prevArticles, ...results]);
         setLoadMore(page < total_pages);
         if (page > 1) {
@@ -81,6 +83,8 @@ function App() {
     setModalAlt("");
   };
 
+  console.log(articles);
+
   return (
     <div>
       <SearchBar onSubmit={onHandleSearchSubmit} />
@@ -89,7 +93,9 @@ function App() {
         <ImageGallery images={articles} openModal={openModal} />
       )}
       {isLoading && <Loader />}
-      {loadMore && !isLoading && <LoadMoreBtn onClick={handleLoadMore} />}
+      {loadMore && !isLoading && articles.length > 0 && (
+        <LoadMoreBtn onClick={handleLoadMore} />
+      )}
       {modalImage && (
         <ImageModal
           isOpen={modalIsOpen}
